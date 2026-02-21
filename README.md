@@ -2,14 +2,14 @@
 
 A hands-on lab project where you'll learn how to manage database schema changes using **Liquibase** — the same tool used by enterprise teams to version-control their databases.
 
-> **A team of 4 students** collaborates through GitHub to design and implement a database from scratch. Each student designs their own domain model (ER diagram) divided into microservices (e.g., User Service, Product Service, Order Service, etc.) — no pre-made database template is used. Students create tables, add indexes, and insert data — just like real developers collaborating on a production database.
+> **A team of 4 students** collaborates through GitHub to design and implement a database from scratch. Each student is assigned to a specific **microservice** (e.g., User Service, Product Service, Order Service, Notification Service). All 4 students work on the **same shared ER diagram**. Students create tables, add indexes, insert data.
 
 ---
 
 ## 📥 Getting Started — Download the Project
 
 **Option A: Clone with Git (recommended)**
-```bash
+```
 git clone https://github.com/YOUR-REPO/liquibase-lab.git
 cd liquibase-lab
 ```
@@ -29,19 +29,27 @@ Download and install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (
 - IntelliJ will auto-detect `pom.xml` and import the Maven project
 - Wait for indexing and dependency download to complete
 
+> **How to open a Terminal in IntelliJ IDEA**: Click **View → Tool Windows → Terminal** (or press `Alt+F12`). This opens a terminal at the bottom of the IDE where you can type commands.
+
 ### 2. JDK 17+ and Maven 3.8+
 IntelliJ usually bundles Maven, but verify JDK is configured:
 - **File → Project Structure → Project SDK** → must be JDK 17 or higher
-- Check terminal:
-```bash
+- Check in the IntelliJ terminal (`Alt+F12`):
+```
 java -version    # should show 17 or higher
 mvn -version     # should show 3.8 or higher
 ```
 
+> **If `mvn` is not found in your system terminal**, it means Maven is only available through IntelliJ's bundled version. In that case, always run `mvn` commands through IntelliJ — see the [How to Start](#-how-to-start--running-commands) section below.
+
 ### 3. MS SQL Server (local)
 You need a running MS SQL Server instance on your machine:
 - **Windows**: Install [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (free)
-- **Docker alternative**: `docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourPassword123!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest`
+- **Docker alternative**:
+  ```
+  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourPassword123!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+  ```
+  > **Note**: The Docker command above uses **pre-defined credentials** (`SA_PASSWORD=YourPassword123!`). After the container starts, update the `username` and `password` fields in both properties files to match these values (username: `sa`, password: `YourPassword123!`).
 
 ### 4. Configure your connection
 Open **both** properties files and update `username` and `password` to match your local MS SQL credentials:
@@ -52,7 +60,7 @@ Open **both** properties files and update `username` and `password` to match you
 ### 5. Create the database via Liquibase
 **Don't create the database manually!** This project uses Liquibase to provision the database — the same way enterprise teams do it:
 
-```bash
+```
 mvn -Pinit-db liquibase:update
 ```
 
@@ -63,9 +71,35 @@ This connects to the `master` database and runs `db-init-changelog.xml`, which:
 
 ### 6. Git + GitHub account
 You'll be collaborating through GitHub:
-```bash
+```
 git --version
 ```
+
+---
+
+## ▶️ How to Start — Running Commands
+
+### ⚠️ Mandatory: Run directly via IntelliJ Shortcut
+Because Maven is likely not installed globally on your Windows machine, typing `mvn` in a standard terminal will cause an error (`'mvn' is not recognized`). 
+
+To bypass this, you can execute the commands directly from this README file using IntelliJ's built-in Markdown runner. This forces IntelliJ to use its bundled Maven.
+
+> **💡 IntelliJ tip**: In the terminal, you can press **Ctrl+Enter** to run Maven commands.
+
+```
+mvn -Pinit-db liquibase:update
+```
+
+```
+mvn liquibase:update
+```
+
+### Option B: Maven Panel (GUI alternative)
+If you prefer not to use the terminal at all:
+- Open the **Maven** panel (right sidebar)
+- Expand **Plugins → liquibase**
+- Double-click `liquibase:update` to run it
+- For profiles (like `init-db`): right-click the project → **Maven → Select Maven Profiles** → check `init-db`, then run `liquibase:update`
 
 ---
 
@@ -80,16 +114,16 @@ git --version
 | `mvn liquibase:rollback -Dliquibase.rollbackCount=1` | Undoes the last applied changeset |
 
 **Try it now!** After creating the database with `mvn -Pinit-db liquibase:update`, run:
-```bash
+```
 mvn liquibase:status
 ```
 You should see that 1 changeset has not been applied (the `tables` table). Then:
-```bash
+```
 mvn liquibase:update
 ```
 The `tables` meta-table should now exist in your database. 🎉
 
-> **IntelliJ Tip**: You can run Maven commands from the **Maven panel** (right sidebar) → **Plugins** → **liquibase** → double-click `liquibase:update`. For profiles, right-click the project → **Maven** → **Select Maven Profiles** → check `init-db`.
+> **IntelliJ Tip**: Remember, you can run Maven commands from the **Maven panel** (right sidebar) → **Plugins** → **liquibase** → double-click `liquibase:update`. For profiles, right-click the project → **Maven** → **Select Maven Profiles** → check `init-db`.
 
 ---
 
@@ -108,8 +142,9 @@ liquibase-lab/
 │       ├── master-changelog.xml             ← THE LIST — controls table migration order
 │       ├── init/                            ← CREATE TABLE files go here
 │       │   └── tables-init.xml              ← Template: creates 'tables' meta-table
-│       ├── changes/                         ← ALTER TABLE, ADD COLUMN, etc.
-│       └── data/                            ← INSERT seed data
+│       ├── changes/                          ← ALTER TABLE, ADD COLUMN, etc.
+│       ├── data/                            ← INSERT seed data
+│       └── triggers/                        ← Database triggers (AFTER INSERT/UPDATE/DELETE, etc.)
 ```
 
 ### Two-Phase Architecture (like the enterprise project)
@@ -117,7 +152,7 @@ liquibase-lab/
 This project has **two distinct phases**, each using a different Maven profile:
 
 | Phase | Profile | Connects To | Changelog | Purpose |
-|-------|---------|------------|-----------|---------|
+|-------|---------|------------|-----------|---------| 
 | 1. DB Init | `init-db` | `master` | `db-init-changelog.xml` | Create database, logins, roles |
 | 2. Tables | default | `liquibase_lab` | `master-changelog.xml` | Create/modify tables, insert data |
 
@@ -131,6 +166,7 @@ This file is the **single source of truth** for what runs and in what order. Eve
 1. init/     ← Tables must exist first
 2. changes/  ← Modifications to existing tables
 3. data/     ← Data inserted after tables and columns are ready
+4. triggers/ ← Triggers applied last, after all tables and data are ready
 ```
 
 ---
@@ -138,6 +174,21 @@ This file is the **single source of truth** for what runs and in what order. Eve
 ## ✍️ How to Write a Changeset
 
 A **changeset** is a single unit of change. It has a unique `id` + `author` pair. Here's the anatomy:
+
+### Understanding the Changeset ID (`001`, `002`, …)
+
+The numeric prefix (e.g., `001`) in the changeset ID serves a specific purpose:
+
+- **Each developer uses their own number sequence** starting from `001`. For example, Student A always writes `001-...`, `002-...`, `003-...` within their own files.
+- **The `id` + `author` combination must be globally unique** across the entire project. Since each student has a different `author` (their last name), two students can both have `id="001-create-..."` without conflict — because `001 + ivanov` ≠ `001 + petrov`.
+- **The number reflects the order within that developer's changes**, not a global sequence. Think of it as: "this is my 1st change", "my 2nd change", etc.
+- **Never reuse or change an existing ID** once a changeset has been applied — that would break the checksum validation.
+
+> **Rule of thumb**: Increment your own counter per file. If you already have `001-create-users-table` (by `ivanov`), your next changeset in a new file should be `002-add-index-to-users` (by `ivanov`).
+
+### Changeset Example (init/ folder)
+
+> ⚠️ **Replace `students` with your actual table name before using this template.**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -147,7 +198,7 @@ A **changeset** is a single unit of change. It has a unique `id` + `author` pair
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <!-- author must be the student's last name -->
-    <changeSet id="001-create-students-table" author="ivanov">
+    <changeSet id="001-create-students-table" author="YOUR_LAST_NAME">
         <createTable tableName="students">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -189,7 +240,7 @@ A **changeset** is a single unit of change. It has a unique `id` + `author` pair
 ### Common Liquibase Tags Reference
 
 | Tag | Purpose | Example |
-|-----|---------|---------|
+|-----|---------|---------| 
 | `<createTable>` | Create a new table | See above |
 | `<addColumn>` | Add column to existing table | See schema changes example below |
 | `<dropColumn>` | Remove a column | `<dropColumn tableName="students" columnName="phone"/>` |
@@ -205,7 +256,7 @@ A **changeset** is a single unit of change. It has a unique `id` + `author` pair
 When modifying an existing table (adding columns, renaming, etc.), place the file in `changes/`:
 
 ```xml
-<changeSet id="001-add-phone-to-students" author="petrov">
+<changeSet id="002-add-phone-to-students" author="petrov">
     <addColumn tableName="students">
         <column name="phone" type="VARCHAR(20)"/>
     </addColumn>
@@ -218,6 +269,7 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
     <sql>
         UPDATE dbo.tables
         SET column_count = (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('students')),
+            version = version + 1,
             last_update_at = SYSUTCDATETIME()
         WHERE name = 'students';
     </sql>
@@ -227,6 +279,7 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
         <sql>
             UPDATE dbo.tables
             SET column_count = (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('students')),
+                version = version - 1,
                 last_update_at = SYSUTCDATETIME()
             WHERE name = 'students';
         </sql>
@@ -277,12 +330,15 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
 1. Clone the repository
 2. Open project in IntelliJ IDEA
 3. Update `liquibase-init-db.properties` and `liquibase.properties` with your local MS SQL Server credentials
-4. Run the initial migration to create the local database:
-   ```bash
+4. Open the terminal and run the initial migration to create the local database:
+   ```
    mvn -Pinit-db liquibase:update
    ```
    This executes `db-init-changelog.xml` and provisions the `liquibase_lab` database under MS SQL Server control.
-5. Apply the template migration: `mvn liquibase:update`
+5. Apply the template migration:
+   ```
+   mvn liquibase:update
+   ```
 6. Verify: the `tables` meta-table should exist in your `liquibase_lab` database (check via SSMS)
 
 ### Round 1 (Task Type 1): Database Skeleton
@@ -295,7 +351,7 @@ Each of the 4 students creates the table structure for their assigned microservi
    - Create corresponding **indexes** (e.g., `init/users-indexes-init.xml`)
 3. Add `<include>` lines to `master-changelog.xml` in the **INIT** section
 4. Test the migration locally:
-   ```bash
+   ```
    mvn liquibase:update
    ```
 5. Verify via SSMS: check that your tables and indexes exist in the `liquibase_lab` database
@@ -306,13 +362,17 @@ Each of the 4 students creates the table structure for their assigned microservi
 After all students have merged their Round 1 branches, everyone populates data.
 
 1. Pull the latest merged changes: `git pull origin main`
-2. Apply the combined migrations: `mvn liquibase:update` — this creates all tables from all 4 students in your local DB
+2. Apply the combined migrations:
+   ```
+   mvn liquibase:update
+   ```
+   This creates all tables from all 4 students in your local DB.
 3. Create a data branch: `git checkout -b MCR-<service_name>-data` (e.g., `MCR-user_service-data`)
 4. Add data files to the `data/` folder:
    - Insert records into your tables (e.g., `data/users-data-V001.xml`, `data/roles-data-V001.xml`)
 5. Add `<include>` lines to `master-changelog.xml` in the **DATA** section
 6. Test locally:
-   ```bash
+   ```
    mvn liquibase:update
    ```
 7. Verify via SSMS: check that your data is inserted correctly
@@ -377,7 +437,7 @@ Validation Failed: 1 changesets check sum
 
 Rollback is how you undo changesets. It only works if you have `<rollback>` blocks in your changesets.
 
-```bash
+```
 # Undo the last changeset
 mvn liquibase:rollback -Dliquibase.rollbackCount=1
 
@@ -394,7 +454,7 @@ After rollback, the changeset is removed from `DATABASECHANGELOG` and it becomes
 ### Clear all objects but keep the database
 
 Open `src/main/resources/clear-database.sql` in SSMS (or IntelliJ's Database tool) and execute it. This drops all tables (including `DATABASECHANGELOG`), views, procedures, and functions. Then re-run:
-```bash
+```
 mvn liquibase:update
 ```
 All changesets will be applied from scratch.
@@ -402,7 +462,7 @@ All changesets will be applied from scratch.
 ### Drop the entire database
 
 Open `src/main/resources/drop-database.sql` in SSMS and execute it. Then recreate it via Liquibase:
-```bash
+```
 mvn -Pinit-db liquibase:update
 ```
 
@@ -411,7 +471,7 @@ mvn -Pinit-db liquibase:update
 ## 📋 Naming Conventions
 
 | Item | Convention | Example |
-|------|-----------|---------|
+|------|-----------|---------| 
 | Init files | `tablename-init.xml` | `students-init.xml` |
 | Change files | `tablename-change-V001.xml` | `students-change-V001.xml` |
 | Data files | `tablename-data-V001.xml` | `courses-data-V001.xml` |
@@ -426,13 +486,13 @@ mvn -Pinit-db liquibase:update
 ## ❓ Troubleshooting
 
 | Problem | Solution |
-|---------|----------|
+|---------|----------| 
 | "Connection refused" | Is MS SQL Server running? Check port 1433 |
 | "Login failed" | Check username/password in your `.properties` files |
 | "Checksum validation failed" | You edited an applied changeset! See DATABASECHANGELOG section above |
 | "Table already exists" | Use `<preConditions onFail="MARK_RAN">` or clear the database |
 | "Unknown changelog file" | Did you add `<include>` to `master-changelog.xml`? |
-| Maven not found | Install Maven and add to PATH, or use IntelliJ's bundled Maven |
+| Maven not found | Install Maven and add to PATH, or use IntelliJ's bundled Maven (Ctrl+Enter) |
 | IntelliJ doesn't recognize Maven | Right-click `pom.xml` → **Add as Maven Project** |
 
 ---
