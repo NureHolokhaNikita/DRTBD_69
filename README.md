@@ -21,6 +21,25 @@ cd liquibase-lab
 
 ---
 
+## 👥 Team Workflow & Git Strategy
+
+To simulate a real-world development environment, your team of 4 should appoint one **Team Lead**. 
+
+**Team Lead Responsibilities:**
+* Create the base repository (e.g., download this project as ZIP) and invite team members.
+* Review and approve Pull/Merge Requests (PR/MR).
+* Resolve merge conflicts in `master-changelog.xml` when multiple developers add `<include>` lines simultaneously.
+
+**Git Workflow (Step-by-Step):**
+1. **Sync:** Always pull the latest changes before starting new work: `git pull origin main`
+2. **Branch:** Create a descriptive branch name based on your service and the task type. For example: `user_service-feature` or `product_service-data`.
+3. **Develop & Test:** Write your changelog files, add them to `master-changelog.xml`, and test locally using `mvn liquibase:update`.
+4. **Commit & Push:** Commit your files and push the branch to the remote repository.
+5. **Pull Request:** Open a Pull Request to the `main` branch. The Team Lead reviews the changes, resolves any ordering conflicts in `master-changelog.xml`, and merges the code.
+6. **Update:** All team members pull the updated `main` branch and apply the combined migrations locally to stay in sync.
+
+---
+
 ## 🛠 Prerequisites — What You Need Before Starting
 
 ### 1. IntelliJ IDEA
@@ -49,7 +68,7 @@ You need a running MS SQL Server instance on your machine:
   ```
   docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourPassword123!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
   ```
-  > **Note**: The Docker command above uses **pre-defined credentials** (`SA_PASSWORD=YourPassword123!`). After the container starts, update the `username` and `password` fields in both properties files to match these values (username: `sa`, password: `YourPassword123!`).
+  > **Note**: The Docker command above uses **pre-defined credentials** (`SA_PASSWORD=YourPassword123!`). After the container starts, check the `username` and `password` is set as username: `sa`, password: `YourPassword123!`. It is set in properties files as default.
 
 ### 4. Configure your connection
 Open **both** properties files and update `username` and `password` to match your local MS SQL credentials:
@@ -327,7 +346,7 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
 
 ### Step 0: All students — Initial setup
 
-1. Clone the repository
+1. Clone the repository provided by your team lead
 2. Open project in IntelliJ IDEA
 3. Update `liquibase-init-db.properties` and `liquibase.properties` with your local MS SQL Server credentials
 4. Open the terminal and run the initial migration to create the local database:
@@ -345,7 +364,7 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
 
 Each of the 4 students creates the table structure for their assigned microservice.
 
-1. Create a feature branch: `git checkout -b MCR-<service_name>-feature` (e.g., `MCR-user_service-feature`)
+1. Create a feature branch: `git checkout -b <service_name>-feature` (e.g., `user_service-feature`)
 2. Write changelog files in the `init/` folder:
    - Create **2–3 tables** for your microservice (e.g., `init/users-init.xml`, `init/roles-init.xml`)
    - Create corresponding **indexes** (e.g., `init/users-indexes-init.xml`)
@@ -367,7 +386,7 @@ After all students have merged their Round 1 branches, everyone populates data.
    mvn liquibase:update
    ```
    This creates all tables from all 4 students in your local DB.
-3. Create a data branch: `git checkout -b MCR-<service_name>-data` (e.g., `MCR-user_service-data`)
+3. Create a data branch: `git checkout -b <service_name>-data` (e.g., `user_service-data`)
 4. Add data files to the `data/` folder:
    - Insert records into your tables (e.g., `data/users-data-V001.xml`, `data/roles-data-V001.xml`)
 5. Add `<include>` lines to `master-changelog.xml` in the **DATA** section
