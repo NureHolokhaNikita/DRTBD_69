@@ -71,10 +71,21 @@ You need a running MS SQL Server instance on your machine:
   > **Note**: The Docker command above uses **pre-defined credentials** (`SA_PASSWORD=YourPassword123!`). After the container starts, check the `username` and `password` is set as username: `sa`, password: `YourPassword123!`. It is set in properties files as default.
 
 ### 4. Configure your connection
-Open **both** properties files and update `username` and `password` to match your local MS SQL credentials:
 
-- `src/main/resources/liquibase-init-db.properties` — connects to `master` (for database creation)
-- `src/main/resources/liquibase.properties` — connects to `liquibase_lab` (for table migrations)
+The repository ships **template** property files with an `.example` suffix. These templates are tracked by Git so every student gets the defaults, but **your personal copies (without `.example`) are ignored by Git** — your credentials will never be accidentally committed.
+
+**Step-by-step:**
+1. Open the project root in your file manager and copy them manually **or** use the IntelliJ terminal (`Alt+F12`) and run:
+   ```
+   copy src\main\resources\liquibase-init-db.properties.example src\main\resources\liquibase-init-db.properties
+   copy src\main\resources\liquibase.properties.example           src\main\resources\liquibase.properties
+   ```
+   > On macOS/Linux replace `copy` with `cp`.
+2. Open **both** newly created files and update `username` and `password` to match your local MS SQL credentials:
+   - `src/main/resources/liquibase-init-db.properties` — connects to `master` (for database creation)
+   - `src/main/resources/liquibase.properties` — connects to `liquibase_lab` (for table migrations)
+
+> **Never rename or delete the `.example` files** — they serve as the shared template for the whole team.
 
 ### 5. Create the database via Liquibase
 **Don't create the database manually!** This project uses Liquibase to provision the database — the same way enterprise teams do it:
@@ -348,7 +359,12 @@ When modifying an existing table (adding columns, renaming, etc.), place the fil
 
 1. Clone the repository provided by your team lead
 2. Open project in IntelliJ IDEA
-3. Update `liquibase-init-db.properties` and `liquibase.properties` with your local MS SQL Server credentials
+3. **Copy the example property files** and fill in your credentials (see [Configure your connection](#4-configure-your-connection) above):
+   ```
+   copy src\main\resources\liquibase-init-db.properties.example src\main\resources\liquibase-init-db.properties
+   copy src\main\resources\liquibase.properties.example           src\main\resources\liquibase.properties
+   ```
+   Then open both files and replace the `username` and `password` values with your local MS SQL Server credentials.
 4. Open the terminal and run the initial migration to create the local database:
    ```
    mvn -Pinit-db liquibase:update
