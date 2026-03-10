@@ -80,7 +80,7 @@ The repository ships **template** property files with an `.example` suffix. Thes
    copy src\main\resources\liquibase-init-db.properties.example src\main\resources\liquibase-init-db.properties
    copy src\main\resources\liquibase.properties.example           src\main\resources\liquibase.properties
    ```
-   > On macOS/Linux replace `copy` with `cp`.
+   > On macOS/Linux replace `copy` with `cp`. Also you will need to use `/` instead of `\`.
 2. Open **both** newly created files and update `username` and `password` to match your local MS SQL credentials:
    - `src/main/resources/liquibase-init-db.properties` — connects to `master` (for database creation)
    - `src/main/resources/liquibase.properties` — connects to `liquibase_lab` (for table migrations)
