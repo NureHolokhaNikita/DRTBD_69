@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="012-insert-sessions-data-V001" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="sessions"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="generation_job_id"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="status"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="user_profile"/>
+            </and>
+        </preConditions>
+        <sql><![CDATA[
+            INSERT INTO dbo.sessions (generation_job_id, user_profile, status, result, total_actions, total_events, error_message, created_at, updated_at, started_at, finished_at)
+            VALUES
+(1, N'{"persona_id":1,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 4, 3, NULL, '2026-03-01 06:00:00', '2026-03-02 08:01:30', '2026-03-02 08:01:00', '2026-03-02 08:17:00'),
+            (1, N'{"persona_id":2,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 5, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-03 08:02:30', '2026-03-03 08:02:00', '2026-03-03 08:24:00'),
+            (2, N'{"persona_id":3,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 6, 5, NULL, '2026-03-01 06:00:00', '2026-03-04 08:03:30', '2026-03-04 08:03:00', NULL),
+            (2, N'{"persona_id":4,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 7, 6, NULL, '2026-03-01 06:00:00', '2026-03-05 08:04:30', '2026-03-05 08:04:00', '2026-03-05 08:38:00'),
+            (3, N'{"persona_id":5,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 8, 7, NULL, '2026-03-01 06:00:00', '2026-03-06 08:05:30', '2026-03-06 08:05:00', '2026-03-06 08:45:00'),
+            (3, N'{"persona_id":6,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 9, 8, NULL, '2026-03-01 06:00:00', '2026-03-07 08:06:30', '2026-03-07 08:06:00', '2026-03-07 08:52:00'),
+            (4, N'{"persona_id":7,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 10, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-08 08:07:30', '2026-03-08 08:07:00', '2026-03-08 08:59:00'),
+            (4, N'{"persona_id":8,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 11, 10, NULL, '2026-03-01 06:00:00', '2026-03-09 08:08:30', '2026-03-09 08:08:00', NULL),
+            (5, N'{"persona_id":9,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 12, 11, NULL, '2026-03-01 06:00:00', '2026-03-10 08:09:30', '2026-03-10 08:09:00', '2026-03-10 08:23:00'),
+            (5, N'{"persona_id":10,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 13, 2, NULL, '2026-03-01 06:00:00', '2026-03-11 08:10:30', '2026-03-11 08:10:00', '2026-03-11 08:30:00'),
+            (6, N'{"persona_id":11,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 14, 3, NULL, '2026-03-01 06:00:00', '2026-03-12 08:11:30', '2026-03-12 08:11:00', '2026-03-12 08:37:00'),
+            (6, N'{"persona_id":12,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 3, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-13 08:12:30', '2026-03-13 08:12:00', '2026-03-13 08:44:00'),
+            (7, N'{"persona_id":13,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 4, 5, NULL, '2026-03-01 06:00:00', '2026-03-14 08:13:30', '2026-03-14 08:13:00', NULL),
+            (7, N'{"persona_id":14,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 5, 6, NULL, '2026-03-01 06:00:00', '2026-03-15 08:14:30', '2026-03-15 08:14:00', '2026-03-15 08:58:00'),
+            (8, N'{"persona_id":15,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 6, 7, NULL, '2026-03-01 06:00:00', '2026-03-16 08:15:30', '2026-03-16 08:15:00', '2026-03-16 08:15:00'),
+            (8, N'{"persona_id":16,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 7, 8, NULL, '2026-03-01 06:00:00', '2026-03-17 08:16:30', '2026-03-17 08:16:00', '2026-03-17 08:22:00'),
+            (9, N'{"persona_id":17,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 8, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-18 08:17:30', '2026-03-18 08:17:00', '2026-03-18 08:29:00'),
+            (9, N'{"persona_id":18,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 9, 10, NULL, '2026-03-01 06:00:00', '2026-03-19 08:18:30', '2026-03-19 08:18:00', NULL),
+            (10, N'{"persona_id":19,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 10, 11, NULL, '2026-03-01 06:00:00', '2026-03-20 08:19:30', '2026-03-20 08:19:00', '2026-03-20 08:43:00'),
+            (10, N'{"persona_id":20,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 11, 2, NULL, '2026-03-01 06:00:00', '2026-03-21 08:20:30', '2026-03-21 08:20:00', '2026-03-21 08:50:00'),
+            (11, N'{"persona_id":21,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 12, 3, NULL, '2026-03-01 06:00:00', '2026-03-22 08:21:30', '2026-03-22 08:21:00', '2026-03-22 08:57:00'),
+            (11, N'{"persona_id":22,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 13, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-23 08:22:30', '2026-03-23 08:22:00', '2026-03-23 08:14:00'),
+            (12, N'{"persona_id":23,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 14, 5, NULL, '2026-03-01 06:00:00', '2026-03-24 08:23:30', '2026-03-24 08:23:00', NULL),
+            (12, N'{"persona_id":24,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 3, 6, NULL, '2026-03-01 06:00:00', '2026-03-25 08:24:30', '2026-03-25 08:24:00', '2026-03-25 08:28:00'),
+            (13, N'{"persona_id":25,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 4, 7, NULL, '2026-03-01 06:00:00', '2026-03-26 08:25:30', '2026-03-26 08:25:00', '2026-03-26 08:35:00'),
+            (13, N'{"persona_id":26,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 5, 8, NULL, '2026-03-01 06:00:00', '2026-03-27 08:26:30', '2026-03-27 08:26:00', '2026-03-27 08:42:00'),
+            (14, N'{"persona_id":27,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 6, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-28 08:27:30', '2026-03-28 08:27:00', '2026-03-28 08:49:00'),
+            (14, N'{"persona_id":28,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 7, 10, NULL, '2026-03-01 06:00:00', '2026-03-01 08:28:30', '2026-03-01 08:28:00', NULL),
+            (15, N'{"persona_id":29,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 8, 11, NULL, '2026-03-01 06:00:00', '2026-03-02 08:29:30', '2026-03-02 08:29:00', '2026-03-02 08:13:00'),
+            (15, N'{"persona_id":30,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 9, 2, NULL, '2026-03-01 06:00:00', '2026-03-03 08:30:30', '2026-03-03 08:30:00', '2026-03-03 08:20:00'),
+            (16, N'{"persona_id":31,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 10, 3, NULL, '2026-03-01 06:00:00', '2026-03-04 08:31:30', '2026-03-04 08:31:00', '2026-03-04 08:27:00'),
+            (16, N'{"persona_id":32,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 11, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-05 08:32:30', '2026-03-05 08:32:00', '2026-03-05 08:34:00'),
+            (17, N'{"persona_id":33,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 12, 5, NULL, '2026-03-01 06:00:00', '2026-03-06 08:33:30', '2026-03-06 08:33:00', NULL),
+            (17, N'{"persona_id":34,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 13, 6, NULL, '2026-03-01 06:00:00', '2026-03-07 08:34:30', '2026-03-07 08:34:00', '2026-03-07 08:48:00'),
+            (18, N'{"persona_id":35,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 14, 7, NULL, '2026-03-01 06:00:00', '2026-03-08 08:35:30', '2026-03-08 08:35:00', '2026-03-08 08:55:00'),
+            (18, N'{"persona_id":36,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 3, 8, NULL, '2026-03-01 06:00:00', '2026-03-09 08:36:30', '2026-03-09 08:36:00', '2026-03-09 08:12:00'),
+            (19, N'{"persona_id":37,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 4, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-10 08:37:30', '2026-03-10 08:37:00', '2026-03-10 08:19:00'),
+            (19, N'{"persona_id":38,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 5, 10, NULL, '2026-03-01 06:00:00', '2026-03-11 08:38:30', '2026-03-11 08:38:00', NULL),
+            (20, N'{"persona_id":39,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 6, 11, NULL, '2026-03-01 06:00:00', '2026-03-12 08:39:30', '2026-03-12 08:39:00', '2026-03-12 08:33:00'),
+            (20, N'{"persona_id":40,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 7, 2, NULL, '2026-03-01 06:00:00', '2026-03-13 08:40:30', '2026-03-13 08:40:00', '2026-03-13 08:40:00'),
+            (21, N'{"persona_id":41,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 8, 3, NULL, '2026-03-01 06:00:00', '2026-03-14 08:41:30', '2026-03-14 08:41:00', '2026-03-14 08:47:00'),
+            (21, N'{"persona_id":42,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 9, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-15 08:42:30', '2026-03-15 08:42:00', '2026-03-15 08:54:00'),
+            (22, N'{"persona_id":43,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 10, 5, NULL, '2026-03-01 06:00:00', '2026-03-16 08:43:30', '2026-03-16 08:43:00', NULL),
+            (22, N'{"persona_id":44,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 11, 6, NULL, '2026-03-01 06:00:00', '2026-03-17 08:44:30', '2026-03-17 08:44:00', '2026-03-17 08:18:00'),
+            (23, N'{"persona_id":45,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 12, 7, NULL, '2026-03-01 06:00:00', '2026-03-18 08:45:30', '2026-03-18 08:45:00', '2026-03-18 08:25:00'),
+            (23, N'{"persona_id":46,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 13, 8, NULL, '2026-03-01 06:00:00', '2026-03-19 08:46:30', '2026-03-19 08:46:00', '2026-03-19 08:32:00'),
+            (24, N'{"persona_id":47,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 14, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-20 08:47:30', '2026-03-20 08:47:00', '2026-03-20 08:39:00'),
+            (24, N'{"persona_id":48,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 3, 10, NULL, '2026-03-01 06:00:00', '2026-03-21 08:48:30', '2026-03-21 08:48:00', NULL),
+            (25, N'{"persona_id":49,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 4, 11, NULL, '2026-03-01 06:00:00', '2026-03-22 08:49:30', '2026-03-22 08:49:00', '2026-03-22 08:53:00'),
+            (25, N'{"persona_id":50,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 5, 2, NULL, '2026-03-01 06:00:00', '2026-03-23 08:50:30', '2026-03-23 08:50:00', '2026-03-23 08:10:00'),
+            (26, N'{"persona_id":51,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 6, 3, NULL, '2026-03-01 06:00:00', '2026-03-24 08:51:30', '2026-03-24 08:51:00', '2026-03-24 08:17:00'),
+            (26, N'{"persona_id":52,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 7, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-25 08:52:30', '2026-03-25 08:52:00', '2026-03-25 08:24:00'),
+            (27, N'{"persona_id":53,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 8, 5, NULL, '2026-03-01 06:00:00', '2026-03-26 08:53:30', '2026-03-26 08:53:00', NULL),
+            (27, N'{"persona_id":54,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 9, 6, NULL, '2026-03-01 06:00:00', '2026-03-27 08:54:30', '2026-03-27 08:54:00', '2026-03-27 08:38:00'),
+            (28, N'{"persona_id":55,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 10, 7, NULL, '2026-03-01 06:00:00', '2026-03-28 08:55:30', '2026-03-28 08:00:00', '2026-03-28 08:45:00'),
+            (28, N'{"persona_id":56,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 11, 8, NULL, '2026-03-01 06:00:00', '2026-03-01 08:56:30', '2026-03-01 08:01:00', '2026-03-01 08:52:00'),
+            (29, N'{"persona_id":57,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 12, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-02 08:57:30', '2026-03-02 08:02:00', '2026-03-02 08:59:00'),
+            (29, N'{"persona_id":58,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 13, 10, NULL, '2026-03-01 06:00:00', '2026-03-03 08:58:30', '2026-03-03 08:03:00', NULL),
+            (30, N'{"persona_id":59,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 14, 11, NULL, '2026-03-01 06:00:00', '2026-03-04 08:59:30', '2026-03-04 08:04:00', '2026-03-04 08:23:00'),
+            (30, N'{"persona_id":60,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 3, 2, NULL, '2026-03-01 06:00:00', '2026-03-05 08:00:30', '2026-03-05 08:05:00', '2026-03-05 08:30:00'),
+            (31, N'{"persona_id":61,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 4, 3, NULL, '2026-03-01 06:00:00', '2026-03-06 08:01:30', '2026-03-06 08:06:00', '2026-03-06 08:37:00'),
+            (32, N'{"persona_id":62,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 5, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-07 08:02:30', '2026-03-07 08:07:00', '2026-03-07 08:44:00'),
+            (33, N'{"persona_id":63,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 6, 5, NULL, '2026-03-01 06:00:00', '2026-03-08 08:03:30', '2026-03-08 08:08:00', NULL),
+            (34, N'{"persona_id":64,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 7, 6, NULL, '2026-03-01 06:00:00', '2026-03-09 08:04:30', '2026-03-09 08:09:00', '2026-03-09 08:58:00'),
+            (35, N'{"persona_id":65,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 8, 7, NULL, '2026-03-01 06:00:00', '2026-03-10 08:05:30', '2026-03-10 08:10:00', '2026-03-10 08:15:00'),
+            (36, N'{"persona_id":66,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 9, 8, NULL, '2026-03-01 06:00:00', '2026-03-11 08:06:30', '2026-03-11 08:11:00', '2026-03-11 08:22:00'),
+            (37, N'{"persona_id":67,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 10, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-12 08:07:30', '2026-03-12 08:12:00', '2026-03-12 08:29:00'),
+            (38, N'{"persona_id":68,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 11, 10, NULL, '2026-03-01 06:00:00', '2026-03-13 08:08:30', '2026-03-13 08:13:00', NULL),
+            (39, N'{"persona_id":69,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 12, 11, NULL, '2026-03-01 06:00:00', '2026-03-14 08:09:30', '2026-03-14 08:14:00', '2026-03-14 08:43:00'),
+            (40, N'{"persona_id":70,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 13, 2, NULL, '2026-03-01 06:00:00', '2026-03-15 08:10:30', '2026-03-15 08:15:00', '2026-03-15 08:50:00'),
+            (41, N'{"persona_id":71,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 14, 3, NULL, '2026-03-01 06:00:00', '2026-03-16 08:11:30', '2026-03-16 08:16:00', '2026-03-16 08:57:00'),
+            (42, N'{"persona_id":72,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 3, 4, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-17 08:12:30', '2026-03-17 08:17:00', '2026-03-17 08:14:00'),
+            (43, N'{"persona_id":73,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 4, 5, NULL, '2026-03-01 06:00:00', '2026-03-18 08:13:30', '2026-03-18 08:18:00', NULL),
+            (44, N'{"persona_id":74,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 5, 6, NULL, '2026-03-01 06:00:00', '2026-03-19 08:14:30', '2026-03-19 08:19:00', '2026-03-19 08:28:00'),
+            (45, N'{"persona_id":75,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 6, 7, NULL, '2026-03-01 06:00:00', '2026-03-20 08:15:30', '2026-03-20 08:20:00', '2026-03-20 08:35:00'),
+            (46, N'{"persona_id":76,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 7, 8, NULL, '2026-03-01 06:00:00', '2026-03-21 08:16:30', '2026-03-21 08:21:00', '2026-03-21 08:42:00'),
+            (47, N'{"persona_id":77,"age_range":"25-34","locale":"en-US"}', N'FAILED', N'failed', 8, 9, N'Timeout waiting for selector', '2026-03-01 06:00:00', '2026-03-22 08:17:30', '2026-03-22 08:22:00', '2026-03-22 08:49:00'),
+            (48, N'{"persona_id":78,"age_range":"25-34","locale":"en-US"}', N'RUNNING', NULL, 9, 10, NULL, '2026-03-01 06:00:00', '2026-03-23 08:18:30', '2026-03-23 08:23:00', NULL),
+            (49, N'{"persona_id":79,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 10, 11, NULL, '2026-03-01 06:00:00', '2026-03-24 08:19:30', '2026-03-24 08:24:00', '2026-03-24 08:13:00'),
+            (50, N'{"persona_id":80,"age_range":"25-34","locale":"en-US"}', N'COMPLETED', N'success', 11, 2, NULL, '2026-03-01 06:00:00', '2026-03-25 08:20:30', '2026-03-25 08:25:00', '2026-03-25 08:20:00')
+        ]]></sql>
+        <rollback>
+            <sql><![CDATA[DELETE FROM dbo.sessions WHERE created_at = '2026-03-01 06:00:00';]]></sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

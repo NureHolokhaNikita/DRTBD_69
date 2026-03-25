@@ -36,6 +36,11 @@
     <include file="data/data_api_keys-data-V001.xml" relativeToChangelogFile="true"/>
     <include file="data/webhook_endpoints-data-V001.xml" relativeToChangelogFile="true"/>
     <include file="data/webhook_logs-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/scenarios-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/generation_jobs-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/sessions-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/events-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/agent_decisions-data-V001.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->
