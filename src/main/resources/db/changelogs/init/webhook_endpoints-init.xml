@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-webhook_endpoints-table" author="Nikita">
+        <createTable tableName="webhook_endpoints">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="secret" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="headers" type="VARCHAR(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_filter" type="VARCHAR(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_active" type="BIT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME" defaultValueComputed="GETDATE()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="webhook_endpoints"
+                baseColumnNames="user_id"
+                constraintName="fk_webhook_endpoints_users"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="webhook_endpoints" indexName="idx_webhook_endpoints_user_id">
+            <column name="user_id"/>
+        </createIndex>
+
+        <sql>
+            INSERT INTO dbo.tables (db_, name, type, author, version, service, description, column_count, created_at, last_update_at)
+            VALUES ('liquibase_lab', 'webhook_endpoints', 'DATA_TABLE', 'Nikita', 1, 'access_management_service',
+                    'Table for storing webhook endpoint configurations.',
+                    (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('webhook_endpoints')),
+                    SYSUTCDATETIME(), NULL);
+        </sql>
+
+        <rollback>
+            <sql>DELETE FROM dbo.tables WHERE name = 'webhook_endpoints';</sql>
+            <dropTable tableName="webhook_endpoints"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
