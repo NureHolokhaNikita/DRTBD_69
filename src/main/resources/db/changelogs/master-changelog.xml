@@ -10,6 +10,10 @@
     <!--  All CREATE TABLE changesets go here           -->
     <!-- ============================================= -->
     <include file="init/tables-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/users-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/data_api_keys-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/webhook_endpoints-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/webhook_logs-init.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->
@@ -24,5 +28,12 @@
     <!--  INSERT statements for reference data         -->
     <!-- ============================================= -->
     <!-- <include file="data/your-data-file.xml" relativeToChangelogFile="true"/> -->
+
+
+    <!-- ============================================= -->
+    <!--  TRIGGERS: Database triggers                  -->
+    <!--  AFTER INSERT/UPDATE/DELETE triggers           -->
+    <!-- ============================================= -->
+    <!-- <include file="triggers/your-trigger-file.xml" relativeToChangelogFile="true"/> -->
 
 </databaseChangeLog>
