@@ -32,7 +32,10 @@
     <!--  DATA: Seed data insertions                   -->
     <!--  INSERT statements for reference data         -->
     <!-- ============================================= -->
-    <!-- <include file="data/your-data-file.xml" relativeToChangelogFile="true"/> -->
+    <include file="data/users-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/data_api_keys-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/webhook_endpoints-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/webhook_logs-data-V001.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->

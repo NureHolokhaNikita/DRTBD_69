@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004-insert-webhook_logs-data" author="Nikita">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="webhook_logs"/>
+                <columnExists schemaName="dbo" tableName="webhook_logs" columnName="endpoint_id"/>
+                <columnExists schemaName="dbo" tableName="webhook_logs" columnName="event_id"/>
+                <columnExists schemaName="dbo" tableName="webhook_logs" columnName="status_code"/>
+                <columnExists schemaName="dbo" tableName="webhook_logs" columnName="success"/>
+            </and>
+        </preConditions>
+
+        <sql>
+            INSERT INTO dbo.webhook_logs (endpoint_id, event_id, attempt, status_code, request_body, response_body, error_message, success, duration_ms, sent_at)
+            VALUES
+            -- Endpoint 1 (Slack Notifications) — session events
+            (1, 'evt-001', 1, 200, '{"event":"session.completed","session_id":1}', '{"ok":true}', NULL, 1, 85, '2026-03-01 08:00:12'),
+            (1, 'evt-002', 1, 200, '{"event":"session.completed","session_id":2}', '{"ok":true}', NULL, 1, 92, '2026-03-01 08:05:30'),
+            (1, 'evt-003', 1, 500, '{"event":"session.failed","session_id":3}', '{"error":"internal"}', 'Server returned 500', 0, 410, '2026-03-01 08:10:45'),
+            (1, 'evt-003', 2, 200, '{"event":"session.failed","session_id":3}', '{"ok":true}', NULL, 1, 130, '2026-03-01 08:11:15'),
+            (1, 'evt-004', 1, 200, '{"event":"session.completed","session_id":4}', '{"ok":true}', NULL, 1, 78, '2026-03-01 09:00:00'),
+            (1, 'evt-005', 1, 200, '{"event":"session.completed","session_id":5}', '{"ok":true}', NULL, 1, 105, '2026-03-01 09:15:22'),
+            (1, 'evt-006', 1, 502, '{"event":"session.completed","session_id":6}', '{"error":"bad gateway"}', 'Bad Gateway', 0, 520, '2026-03-01 09:30:10'),
+            (1, 'evt-006', 2, 502, '{"event":"session.completed","session_id":6}', '{"error":"bad gateway"}', 'Bad Gateway', 0, 480, '2026-03-01 09:30:40'),
+            (1, 'evt-006', 3, 200, '{"event":"session.completed","session_id":6}', '{"ok":true}', NULL, 1, 95, '2026-03-01 09:31:10'),
+            (1, 'evt-007', 1, 200, '{"event":"session.completed","session_id":7}', '{"ok":true}', NULL, 1, 88, '2026-03-01 10:00:05'),
+            (1, 'evt-008', 1, 200, '{"event":"session.failed","session_id":8}', '{"ok":true}', NULL, 1, 110, '2026-03-01 10:20:33'),
+            (1, 'evt-009', 1, 200, '{"event":"session.completed","session_id":9}', '{"ok":true}', NULL, 1, 76, '2026-03-01 10:45:12'),
+            (1, 'evt-010', 1, 0, '{"event":"session.completed","session_id":10}', NULL, 'Connection timed out', 0, 30000, '2026-03-01 11:00:00'),
+            (1, 'evt-010', 2, 200, '{"event":"session.completed","session_id":10}', '{"ok":true}', NULL, 1, 102, '2026-03-01 11:00:35'),
+            (1, 'evt-011', 1, 200, '{"event":"session.completed","session_id":11}', '{"ok":true}', NULL, 1, 91, '2026-03-01 11:30:20'),
+            (1, 'evt-012', 1, 200, '{"event":"session.completed","session_id":12}', '{"ok":true}', NULL, 1, 87, '2026-03-01 12:00:00'),
+            (1, 'evt-013', 1, 503, '{"event":"session.failed","session_id":13}', '{"error":"service unavailable"}', 'Service Unavailable', 0, 650, '2026-03-01 12:15:45'),
+            (1, 'evt-013', 2, 200, '{"event":"session.failed","session_id":13}', '{"ok":true}', NULL, 1, 115, '2026-03-01 12:16:15'),
+            (1, 'evt-014', 1, 200, '{"event":"session.completed","session_id":14}', '{"ok":true}', NULL, 1, 99, '2026-03-01 13:00:10'),
+            (1, 'evt-015', 1, 200, '{"event":"session.completed","session_id":15}', '{"ok":true}', NULL, 1, 82, '2026-03-01 13:30:25'),
+            (1, 'evt-016', 1, 200, '{"event":"session.completed","session_id":16}', '{"ok":true}', NULL, 1, 93, '2026-03-01 14:00:00'),
+            (1, 'evt-017', 1, 500, '{"event":"session.completed","session_id":17}', '{"error":"internal"}', 'Internal Server Error', 0, 380, '2026-03-01 14:15:30'),
+            (1, 'evt-017', 2, 500, '{"event":"session.completed","session_id":17}', '{"error":"internal"}', 'Internal Server Error', 0, 395, '2026-03-01 14:16:00'),
+            (1, 'evt-017', 3, 200, '{"event":"session.completed","session_id":17}', '{"ok":true}', NULL, 1, 108, '2026-03-01 14:16:30'),
+            (1, 'evt-018', 1, 200, '{"event":"session.completed","session_id":18}', '{"ok":true}', NULL, 1, 75, '2026-03-01 14:45:00'),
+            (1, 'evt-019', 1, 200, '{"event":"session.completed","session_id":19}', '{"ok":true}', NULL, 1, 112, '2026-03-01 15:00:15'),
+            (1, 'evt-020', 1, 200, '{"event":"session.failed","session_id":20}', '{"ok":true}', NULL, 1, 96, '2026-03-01 15:30:40');
+
+            INSERT INTO dbo.webhook_logs (endpoint_id, event_id, attempt, status_code, request_body, response_body, error_message, success, duration_ms, sent_at)
+            VALUES
+            -- Endpoint 1 continued
+            (1, 'evt-021', 1, 200, '{"event":"session.completed","session_id":21}', '{"ok":true}', NULL, 1, 89, '2026-03-02 08:00:05'),
+            (1, 'evt-022', 1, 200, '{"event":"session.completed","session_id":22}', '{"ok":true}', NULL, 1, 101, '2026-03-02 08:20:30'),
+            (1, 'evt-023', 1, 0, '{"event":"session.completed","session_id":23}', NULL, 'Connection refused', 0, 5000, '2026-03-02 08:45:00'),
+            (1, 'evt-023', 2, 0, '{"event":"session.completed","session_id":23}', NULL, 'Connection refused', 0, 5000, '2026-03-02 08:45:30'),
+            (1, 'evt-023', 3, 200, '{"event":"session.completed","session_id":23}', '{"ok":true}', NULL, 1, 140, '2026-03-02 08:46:00'),
+            (1, 'evt-024', 1, 200, '{"event":"session.completed","session_id":24}', '{"ok":true}', NULL, 1, 77, '2026-03-02 09:00:10'),
+            (1, 'evt-025', 1, 200, '{"event":"session.failed","session_id":25}', '{"ok":true}', NULL, 1, 94, '2026-03-02 09:30:20'),
+            (1, 'evt-026', 1, 200, '{"event":"session.completed","session_id":26}', '{"ok":true}', NULL, 1, 86, '2026-03-02 10:00:00'),
+            (1, 'evt-027', 1, 200, '{"event":"session.completed","session_id":27}', '{"ok":true}', NULL, 1, 103, '2026-03-02 10:30:15'),
+            (1, 'evt-028', 1, 502, '{"event":"session.completed","session_id":28}', '{"error":"bad gateway"}', 'Bad Gateway', 0, 490, '2026-03-02 11:00:00'),
+            (1, 'evt-028', 2, 200, '{"event":"session.completed","session_id":28}', '{"ok":true}', NULL, 1, 118, '2026-03-02 11:00:30'),
+            (1, 'evt-029', 1, 200, '{"event":"session.completed","session_id":29}', '{"ok":true}', NULL, 1, 79, '2026-03-02 11:30:45'),
+            (1, 'evt-030', 1, 200, '{"event":"session.completed","session_id":30}', '{"ok":true}', NULL, 1, 90, '2026-03-02 12:00:00'),
+            (1, 'evt-031', 1, 200, '{"event":"session.completed","session_id":31}', '{"ok":true}', NULL, 1, 84, '2026-03-02 12:30:10'),
+            (1, 'evt-032', 1, 200, '{"event":"session.failed","session_id":32}', '{"ok":true}', NULL, 1, 107, '2026-03-02 13:00:00'),
+            (1, 'evt-033', 1, 500, '{"event":"session.completed","session_id":33}', '{"error":"internal"}', 'Internal Server Error', 0, 440, '2026-03-02 13:30:25'),
+            (1, 'evt-033', 2, 200, '{"event":"session.completed","session_id":33}', '{"ok":true}', NULL, 1, 125, '2026-03-02 13:30:55'),
+            (1, 'evt-034', 1, 200, '{"event":"session.completed","session_id":34}', '{"ok":true}', NULL, 1, 81, '2026-03-02 14:00:15'),
+            (1, 'evt-035', 1, 200, '{"event":"session.completed","session_id":35}', '{"ok":true}', NULL, 1, 98, '2026-03-02 14:30:00');
+
+            INSERT INTO dbo.webhook_logs (endpoint_id, event_id, attempt, status_code, request_body, response_body, error_message, success, duration_ms, sent_at)
+            VALUES
+            -- Endpoint 2 (Monitoring Endpoint) — job events
+            (2, 'evt-036', 1, 200, '{"event":"job.started","job_id":1}', '{"received":true}', NULL, 1, 65, '2026-03-01 08:00:00'),
+            (2, 'evt-037', 1, 200, '{"event":"job.completed","job_id":1}', '{"received":true}', NULL, 1, 72, '2026-03-01 08:45:00'),
+            (2, 'evt-038', 1, 200, '{"event":"job.started","job_id":2}', '{"received":true}', NULL, 1, 58, '2026-03-01 09:00:00'),
+            (2, 'evt-039', 1, 500, '{"event":"job.failed","job_id":2}', '{"error":"internal"}', 'Server returned 500', 0, 320, '2026-03-01 09:30:00'),
+            (2, 'evt-039', 2, 200, '{"event":"job.failed","job_id":2}', '{"received":true}', NULL, 1, 80, '2026-03-01 09:30:30'),
+            (2, 'evt-040', 1, 200, '{"event":"job.started","job_id":3}', '{"received":true}', NULL, 1, 63, '2026-03-01 10:00:00'),
+            (2, 'evt-041', 1, 200, '{"event":"job.completed","job_id":3}', '{"received":true}', NULL, 1, 71, '2026-03-01 10:50:00'),
+            (2, 'evt-042', 1, 200, '{"event":"job.started","job_id":4}', '{"received":true}', NULL, 1, 55, '2026-03-01 11:00:00'),
+            (2, 'evt-043', 1, 0, '{"event":"job.completed","job_id":4}', NULL, 'Connection timed out', 0, 30000, '2026-03-01 11:55:00'),
+            (2, 'evt-043', 2, 0, '{"event":"job.completed","job_id":4}', NULL, 'Connection timed out', 0, 30000, '2026-03-01 11:55:35'),
+            (2, 'evt-043', 3, 200, '{"event":"job.completed","job_id":4}', '{"received":true}', NULL, 1, 110, '2026-03-01 11:56:05'),
+            (2, 'evt-044', 1, 200, '{"event":"job.started","job_id":5}', '{"received":true}', NULL, 1, 60, '2026-03-01 12:00:00'),
+            (2, 'evt-045', 1, 200, '{"event":"job.completed","job_id":5}', '{"received":true}', NULL, 1, 68, '2026-03-01 12:45:00'),
+            (2, 'evt-046', 1, 200, '{"event":"job.started","job_id":6}', '{"received":true}', NULL, 1, 57, '2026-03-01 13:00:00'),
+            (2, 'evt-047', 1, 503, '{"event":"job.failed","job_id":6}', '{"error":"service unavailable"}', 'Service Unavailable', 0, 700, '2026-03-01 13:40:00'),
+            (2, 'evt-047', 2, 503, '{"event":"job.failed","job_id":6}', '{"error":"service unavailable"}', 'Service Unavailable', 0, 680, '2026-03-01 13:40:30'),
+            (2, 'evt-047', 3, 200, '{"event":"job.failed","job_id":6}', '{"received":true}', NULL, 1, 90, '2026-03-01 13:41:00'),
+            (2, 'evt-048', 1, 200, '{"event":"job.started","job_id":7}', '{"received":true}', NULL, 1, 62, '2026-03-01 14:00:00'),
+            (2, 'evt-049', 1, 200, '{"event":"job.completed","job_id":7}', '{"received":true}', NULL, 1, 74, '2026-03-01 14:50:00'),
+            (2, 'evt-050', 1, 200, '{"event":"job.started","job_id":8}', '{"received":true}', NULL, 1, 59, '2026-03-01 15:00:00');
+
+            INSERT INTO dbo.webhook_logs (endpoint_id, event_id, attempt, status_code, request_body, response_body, error_message, success, duration_ms, sent_at)
+            VALUES
+            -- Endpoint 2 continued — day 2
+            (2, 'evt-051', 1, 200, '{"event":"job.completed","job_id":8}', '{"received":true}', NULL, 1, 67, '2026-03-02 08:00:00'),
+            (2, 'evt-052', 1, 200, '{"event":"job.started","job_id":9}', '{"received":true}', NULL, 1, 54, '2026-03-02 08:30:00'),
+            (2, 'evt-053', 1, 200, '{"event":"job.completed","job_id":9}', '{"received":true}', NULL, 1, 73, '2026-03-02 09:15:00'),
+            (2, 'evt-054', 1, 200, '{"event":"job.started","job_id":10}', '{"received":true}', NULL, 1, 61, '2026-03-02 09:30:00'),
+            (2, 'evt-055', 1, 502, '{"event":"job.completed","job_id":10}', '{"error":"bad gateway"}', 'Bad Gateway', 0, 510, '2026-03-02 10:20:00'),
+            (2, 'evt-055', 2, 200, '{"event":"job.completed","job_id":10}', '{"received":true}', NULL, 1, 85, '2026-03-02 10:20:30'),
+            (2, 'evt-056', 1, 200, '{"event":"job.started","job_id":11}', '{"received":true}', NULL, 1, 56, '2026-03-02 10:30:00'),
+            (2, 'evt-057', 1, 200, '{"event":"job.failed","job_id":11}', '{"received":true}', NULL, 1, 78, '2026-03-02 11:00:00'),
+            (2, 'evt-058', 1, 200, '{"event":"job.started","job_id":12}', '{"received":true}', NULL, 1, 64, '2026-03-02 11:30:00'),
+            (2, 'evt-059', 1, 200, '{"event":"job.completed","job_id":12}', '{"received":true}', NULL, 1, 70, '2026-03-02 12:15:00'),
+            (2, 'evt-060', 1, 200, '{"event":"job.started","job_id":13}', '{"received":true}', NULL, 1, 53, '2026-03-02 12:30:00'),
+            (2, 'evt-061', 1, 500, '{"event":"job.completed","job_id":13}', '{"error":"internal"}', 'Internal Server Error', 0, 450, '2026-03-02 13:20:00'),
+            (2, 'evt-061', 2, 500, '{"event":"job.completed","job_id":13}', '{"error":"internal"}', 'Internal Server Error', 0, 470, '2026-03-02 13:20:30'),
+            (2, 'evt-061', 3, 200, '{"event":"job.completed","job_id":13}', '{"received":true}', NULL, 1, 95, '2026-03-02 13:21:00'),
+            (2, 'evt-062', 1, 200, '{"event":"job.started","job_id":14}', '{"received":true}', NULL, 1, 58, '2026-03-02 13:30:00'),
+            (2, 'evt-063', 1, 200, '{"event":"job.completed","job_id":14}', '{"received":true}', NULL, 1, 69, '2026-03-02 14:15:00'),
+            (2, 'evt-064', 1, 200, '{"event":"job.started","job_id":15}', '{"received":true}', NULL, 1, 55, '2026-03-02 14:30:00'),
+            (2, 'evt-065', 1, 0, '{"event":"job.failed","job_id":15}', NULL, 'DNS resolution failed', 0, 8000, '2026-03-02 15:00:00'),
+            (2, 'evt-065', 2, 200, '{"event":"job.failed","job_id":15}', '{"received":true}', NULL, 1, 88, '2026-03-02 15:00:35'),
+            (2, 'evt-066', 1, 200, '{"event":"job.started","job_id":16}', '{"received":true}', NULL, 1, 52, '2026-03-02 15:30:00'),
+            (2, 'evt-067', 1, 200, '{"event":"job.completed","job_id":16}', '{"received":true}', NULL, 1, 75, '2026-03-02 16:15:00'),
+            (2, 'evt-068', 1, 200, '{"event":"job.started","job_id":17}', '{"received":true}', NULL, 1, 60, '2026-03-02 16:30:00'),
+            (2, 'evt-069', 1, 200, '{"event":"job.completed","job_id":17}', '{"received":true}', NULL, 1, 66, '2026-03-02 17:00:00'),
+            (2, 'evt-070', 1, 200, '{"event":"job.started","job_id":18}', '{"received":true}', NULL, 1, 57, '2026-03-03 08:00:00'),
+            (2, 'evt-071', 1, 502, '{"event":"job.completed","job_id":18}', '{"error":"bad gateway"}', 'Bad Gateway', 0, 530, '2026-03-03 08:50:00'),
+            (2, 'evt-071', 2, 200, '{"event":"job.completed","job_id":18}', '{"received":true}', NULL, 1, 82, '2026-03-03 08:50:30'),
+            (2, 'evt-072', 1, 200, '{"event":"job.started","job_id":19}', '{"received":true}', NULL, 1, 51, '2026-03-03 09:00:00'),
+            (2, 'evt-073', 1, 200, '{"event":"job.completed","job_id":19}', '{"received":true}', NULL, 1, 71, '2026-03-03 09:45:00'),
+            (2, 'evt-074', 1, 200, '{"event":"job.started","job_id":20}', '{"received":true}', NULL, 1, 63, '2026-03-03 10:00:00'),
+            (2, 'evt-075', 1, 200, '{"event":"job.completed","job_id":20}', '{"received":true}', NULL, 1, 68, '2026-03-03 10:50:00'),
+            (1, 'evt-076', 1, 200, '{"event":"session.completed","session_id":36}', '{"ok":true}', NULL, 1, 83, '2026-03-03 11:00:00'),
+            (1, 'evt-077', 1, 200, '{"event":"session.completed","session_id":37}', '{"ok":true}', NULL, 1, 97, '2026-03-03 11:30:15'),
+            (1, 'evt-078', 1, 503, '{"event":"session.failed","session_id":38}', '{"error":"service unavailable"}', 'Service Unavailable', 0, 620, '2026-03-03 12:00:00'),
+            (1, 'evt-078', 2, 200, '{"event":"session.failed","session_id":38}', '{"ok":true}', NULL, 1, 105, '2026-03-03 12:00:30'),
+            (2, 'evt-079', 1, 200, '{"event":"job.started","job_id":21}', '{"received":true}', NULL, 1, 56, '2026-03-03 12:30:00'),
+            (2, 'evt-080', 1, 200, '{"event":"job.completed","job_id":21}', '{"received":true}', NULL, 1, 74, '2026-03-03 13:15:00');
+        </sql>
+
+        <rollback>
+            <sql>DELETE FROM dbo.webhook_logs WHERE event_id LIKE 'evt-%';</sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

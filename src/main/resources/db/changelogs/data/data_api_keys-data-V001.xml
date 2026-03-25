@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-insert-data_api_keys-data" author="Nikita">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="data_api_keys"/>
+                <columnExists schemaName="dbo" tableName="data_api_keys" columnName="name"/>
+                <columnExists schemaName="dbo" tableName="data_api_keys" columnName="password"/>
+                <columnExists schemaName="dbo" tableName="data_api_keys" columnName="role"/>
+                <columnExists schemaName="dbo" tableName="data_api_keys" columnName="user_id"/>
+            </and>
+        </preConditions>
+
+        <insert tableName="data_api_keys">
+            <column name="name" value="admin-key-1"/>
+            <column name="password" value="ak_hash_001"/>
+            <column name="role" value="ADMIN"/>
+            <column name="user_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="data_api_keys">
+            <column name="name" value="alice-key-1"/>
+            <column name="password" value="ak_hash_002"/>
+            <column name="role" value="USER"/>
+            <column name="user_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="data_api_keys">
+            <column name="name" value="bob-key-1"/>
+            <column name="password" value="bk_hash_001"/>
+            <column name="role" value="USER"/>
+            <column name="user_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="data_api_keys">
+            <column name="name" value="charlie-key-1"/>
+            <column name="password" value="ck_hash_001"/>
+            <column name="role" value="USER"/>
+            <column name="user_id" valueNumeric="4"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="data_api_keys">
+                <where>name IN ('admin-key-1', 'alice-key-1', 'bob-key-1', 'charlie-key-1')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
