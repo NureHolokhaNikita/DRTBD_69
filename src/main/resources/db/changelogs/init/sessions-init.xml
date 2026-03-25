@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="007-create-sessions-table" author="Nikita">
+        <createTable tableName="sessions">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="generation_job_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_profile" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="result" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="total_actions" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_events" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="error_message" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="DATETIME" defaultValueComputed="GETDATE()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="started_at" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="finished_at" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="sessions"
+                baseColumnNames="generation_job_id"
+                constraintName="fk_sessions_generation_jobs"
+                referencedTableName="generation_jobs"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="sessions" indexName="idx_sessions_generation_job_id">
+            <column name="generation_job_id"/>
+        </createIndex>
+        <createIndex tableName="sessions" indexName="idx_sessions_status">
+            <column name="status"/>
+        </createIndex>
+
+        <sql>
+            INSERT INTO dbo.tables (db_, name, type, author, version, service, description, column_count, created_at, last_update_at)
+            VALUES ('liquibase_lab', 'sessions', 'DATA_TABLE', 'Nikita', 1, 'scenario_session_service',
+                    'Individual browser or app sessions produced by a generation job.',
+                    (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('sessions')),
+                    SYSUTCDATETIME(), NULL);
+        </sql>
+
+        <rollback>
+            <sql>DELETE FROM dbo.tables WHERE name = 'sessions';</sql>
+            <dropTable tableName="sessions"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
