@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="005-create-scenarios-table" author="Nikita">
+        <createTable tableName="scenarios">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="persona_prompt" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="target_urls" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="llm_config" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="device_pool" type="VARCHAR(MAX)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_active" type="BIT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME" defaultValueComputed="GETDATE()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="scenarios"
+                baseColumnNames="user_id"
+                constraintName="fk_scenarios_users"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="scenarios" indexName="idx_scenarios_user_id">
+            <column name="user_id"/>
+        </createIndex>
+
+        <sql>
+            INSERT INTO dbo.tables (db_, name, type, author, version, service, description, column_count, created_at, last_update_at)
+            VALUES ('liquibase_lab', 'scenarios', 'DATA_TABLE', 'Nikita', 1, 'scenario_session_service',
+                    'Blueprint for automated user session simulations (persona, targets, LLM and device settings).',
+                    (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('scenarios')),
+                    SYSUTCDATETIME(), NULL);
+        </sql>
+
+        <rollback>
+            <sql>DELETE FROM dbo.tables WHERE name = 'scenarios';</sql>
+            <dropTable tableName="scenarios"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

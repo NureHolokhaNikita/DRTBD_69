@@ -14,6 +14,11 @@
     <include file="init/data_api_keys-init.xml" relativeToChangelogFile="true"/>
     <include file="init/webhook_endpoints-init.xml" relativeToChangelogFile="true"/>
     <include file="init/webhook_logs-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/scenarios-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/generation_jobs-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/sessions-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/events-init.xml" relativeToChangelogFile="true"/>
+    <include file="init/agent_decisions-init.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->
