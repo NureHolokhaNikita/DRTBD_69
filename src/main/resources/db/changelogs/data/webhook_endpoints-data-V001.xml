@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-insert-webhook_endpoints-data" author="Nikita">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="webhook_endpoints"/>
+                <columnExists schemaName="dbo" tableName="webhook_endpoints" columnName="name"/>
+                <columnExists schemaName="dbo" tableName="webhook_endpoints" columnName="url"/>
+                <columnExists schemaName="dbo" tableName="webhook_endpoints" columnName="user_id"/>
+            </and>
+        </preConditions>
+
+        <insert tableName="webhook_endpoints">
+            <column name="name" value="Slack Notifications"/>
+            <column name="url" value="https://hooks.slack.example.com/webhook"/>
+            <column name="secret" value="slack_secret_123"/>
+            <column name="headers" value="{&quot;Content-Type&quot;:&quot;application/json&quot;}"/>
+            <column name="event_filter" value="session.completed"/>
+            <column name="is_active" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="webhook_endpoints">
+            <column name="name" value="Monitoring Endpoint"/>
+            <column name="url" value="https://monitor.example.com/api/events"/>
+            <column name="headers" value="{&quot;Content-Type&quot;:&quot;application/json&quot;}"/>
+            <column name="is_active" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="2"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="webhook_endpoints">
+                <where>name IN ('Slack Notifications', 'Monitoring Endpoint')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
