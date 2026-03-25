@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="013-insert-events-data-V001" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="events"/>
+                <columnExists schemaName="dbo" tableName="events" columnName="session_id"/>
+                <columnExists schemaName="dbo" tableName="events" columnName="event_type"/>
+                <columnExists schemaName="dbo" tableName="events" columnName="sequence_number"/>
+            </and>
+        </preConditions>
+        <sql><![CDATA[
+            INSERT INTO dbo.events (session_id, event_type, page_url, page_title, element_selector, element_text, element_role, event_data, sequence_number, recorded_at)
+            VALUES
+(1, N'navigate', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":11,"y":21}', 1, '2026-03-02 09:02:03'),
+            (1, N'input', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":12,"y":22}', 2, '2026-03-03 09:03:06'),
+            (2, N'scroll', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":13,"y":23}', 1, '2026-03-04 09:04:09'),
+            (2, N'submit', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":14,"y":24}', 2, '2026-03-05 09:05:12'),
+            (3, N'click', N'https://example.com/page5', N'Page 5', N'#item-5', N'Button 5', N'button', N'{"x":15,"y":25}', 1, '2026-03-06 09:06:15'),
+            (3, N'navigate', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":16,"y":26}', 2, '2026-03-07 09:07:18'),
+            (4, N'input', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":17,"y":27}', 1, '2026-03-08 09:08:21'),
+            (4, N'scroll', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":18,"y":28}', 2, '2026-03-09 09:09:24'),
+            (5, N'submit', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":19,"y":29}', 1, '2026-03-10 09:10:27'),
+            (5, N'click', N'https://example.com/page3', N'Page 3', N'#item-10', N'Button 10', N'button', N'{"x":20,"y":30}', 2, '2026-03-11 09:11:30'),
+            (6, N'navigate', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":21,"y":31}', 1, '2026-03-12 09:12:33'),
+            (6, N'input', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":22,"y":32}', 2, '2026-03-13 09:13:36'),
+            (7, N'scroll', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":23,"y":33}', 1, '2026-03-14 09:14:39'),
+            (7, N'submit', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":24,"y":34}', 2, '2026-03-15 09:15:42'),
+            (8, N'click', N'https://example.com/page1', N'Page 1', N'#item-15', N'Button 15', N'button', N'{"x":25,"y":35}', 1, '2026-03-16 09:16:45'),
+            (8, N'navigate', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":26,"y":36}', 2, '2026-03-17 09:17:48'),
+            (9, N'input', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":27,"y":37}', 1, '2026-03-18 09:18:51'),
+            (9, N'scroll', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":28,"y":38}', 2, '2026-03-19 09:19:54'),
+            (10, N'submit', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":29,"y":39}', 1, '2026-03-20 09:20:57'),
+            (10, N'click', N'https://example.com/page6', N'Page 6', N'#item-20', N'Button 20', N'button', N'{"x":30,"y":40}', 2, '2026-03-21 09:21:00'),
+            (11, N'navigate', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":31,"y":41}', 1, '2026-03-22 09:22:03'),
+            (11, N'input', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":32,"y":42}', 2, '2026-03-23 09:23:06'),
+            (12, N'scroll', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":33,"y":43}', 1, '2026-03-24 09:24:09'),
+            (12, N'submit', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":34,"y":44}', 2, '2026-03-25 09:25:12'),
+            (13, N'click', N'https://example.com/page4', N'Page 4', N'#item-25', N'Button 25', N'button', N'{"x":35,"y":45}', 1, '2026-03-26 09:26:15'),
+            (13, N'navigate', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":36,"y":46}', 2, '2026-03-27 09:27:18'),
+            (14, N'input', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":37,"y":47}', 1, '2026-03-28 09:28:21'),
+            (14, N'scroll', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":38,"y":48}', 2, '2026-03-01 09:29:24'),
+            (15, N'submit', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":39,"y":49}', 1, '2026-03-02 09:30:27'),
+            (15, N'click', N'https://example.com/page2', N'Page 2', N'#item-30', N'Button 30', N'button', N'{"x":40,"y":50}', 2, '2026-03-03 09:31:30'),
+            (16, N'navigate', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":41,"y":51}', 1, '2026-03-04 09:32:33'),
+            (16, N'input', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":42,"y":52}', 2, '2026-03-05 09:33:36'),
+            (17, N'scroll', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":43,"y":53}', 1, '2026-03-06 09:34:39'),
+            (17, N'submit', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":44,"y":54}', 2, '2026-03-07 09:35:42'),
+            (18, N'click', N'https://example.com/page0', N'Page 0', N'#item-35', N'Button 35', N'button', N'{"x":45,"y":55}', 1, '2026-03-08 09:36:45'),
+            (18, N'navigate', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":46,"y":56}', 2, '2026-03-09 09:37:48'),
+            (19, N'input', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":47,"y":57}', 1, '2026-03-10 09:38:51'),
+            (19, N'scroll', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":48,"y":58}', 2, '2026-03-11 09:39:54'),
+            (20, N'submit', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":49,"y":59}', 1, '2026-03-12 09:40:57'),
+            (20, N'click', N'https://example.com/page5', N'Page 5', N'#item-40', N'Button 40', N'button', N'{"x":50,"y":60}', 2, '2026-03-13 09:41:00'),
+            (21, N'navigate', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":51,"y":61}', 1, '2026-03-14 09:42:03'),
+            (22, N'input', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":52,"y":62}', 1, '2026-03-15 09:43:06'),
+            (23, N'scroll', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":53,"y":63}', 1, '2026-03-16 09:44:09'),
+            (24, N'submit', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":54,"y":64}', 1, '2026-03-17 09:45:12'),
+            (25, N'click', N'https://example.com/page3', N'Page 3', N'#item-45', N'Button 45', N'button', N'{"x":55,"y":65}', 1, '2026-03-18 09:46:15'),
+            (26, N'navigate', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":56,"y":66}', 1, '2026-03-19 09:47:18'),
+            (27, N'input', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":57,"y":67}', 1, '2026-03-20 09:48:21'),
+            (28, N'scroll', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":58,"y":68}', 1, '2026-03-21 09:49:24'),
+            (29, N'submit', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":59,"y":69}', 1, '2026-03-22 09:50:27'),
+            (30, N'click', N'https://example.com/page1', N'Page 1', N'#item-50', N'Button 50', N'button', N'{"x":60,"y":70}', 1, '2026-03-23 09:51:30'),
+            (31, N'navigate', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":61,"y":71}', 1, '2026-03-24 09:52:33'),
+            (32, N'input', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":62,"y":72}', 1, '2026-03-25 09:53:36'),
+            (33, N'scroll', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":63,"y":73}', 1, '2026-03-26 09:54:39'),
+            (34, N'submit', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":64,"y":74}', 1, '2026-03-27 09:55:42'),
+            (35, N'click', N'https://example.com/page6', N'Page 6', N'#item-55', N'Button 55', N'button', N'{"x":65,"y":75}', 1, '2026-03-28 09:01:45'),
+            (36, N'navigate', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":66,"y":76}', 1, '2026-03-01 09:02:48'),
+            (37, N'input', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":67,"y":77}', 1, '2026-03-02 09:03:51'),
+            (38, N'scroll', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":68,"y":78}', 1, '2026-03-03 09:04:54'),
+            (39, N'submit', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":69,"y":79}', 1, '2026-03-04 09:05:57'),
+            (40, N'click', N'https://example.com/page4', N'Page 4', N'#item-60', N'Button 60', N'button', N'{"x":70,"y":80}', 1, '2026-03-05 09:06:00'),
+            (41, N'navigate', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":71,"y":81}', 1, '2026-03-06 09:07:03'),
+            (42, N'input', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":72,"y":82}', 1, '2026-03-07 09:08:06'),
+            (43, N'scroll', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":73,"y":83}', 1, '2026-03-08 09:09:09'),
+            (44, N'submit', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":74,"y":84}', 1, '2026-03-09 09:10:12'),
+            (45, N'click', N'https://example.com/page2', N'Page 2', N'#item-65', N'Button 65', N'button', N'{"x":75,"y":85}', 1, '2026-03-10 09:11:15'),
+            (46, N'navigate', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":76,"y":86}', 1, '2026-03-11 09:12:18'),
+            (47, N'input', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":77,"y":87}', 1, '2026-03-12 09:13:21'),
+            (48, N'scroll', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":78,"y":88}', 1, '2026-03-13 09:14:24'),
+            (49, N'submit', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":79,"y":89}', 1, '2026-03-14 09:15:27'),
+            (50, N'click', N'https://example.com/page0', N'Page 0', N'#item-70', N'Button 70', N'button', N'{"x":80,"y":90}', 1, '2026-03-15 09:16:30'),
+            (51, N'navigate', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":81,"y":91}', 1, '2026-03-16 09:17:33'),
+            (52, N'input', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":82,"y":92}', 1, '2026-03-17 09:18:36'),
+            (53, N'scroll', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":83,"y":93}', 1, '2026-03-18 09:19:39'),
+            (54, N'submit', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":84,"y":94}', 1, '2026-03-19 09:20:42'),
+            (55, N'click', N'https://example.com/page5', N'Page 5', N'#item-75', N'Button 75', N'button', N'{"x":85,"y":95}', 1, '2026-03-20 09:21:45'),
+            (56, N'navigate', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":86,"y":96}', 1, '2026-03-21 09:22:48'),
+            (57, N'input', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":87,"y":97}', 1, '2026-03-22 09:23:51'),
+            (58, N'scroll', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":88,"y":98}', 1, '2026-03-23 09:24:54'),
+            (59, N'submit', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":89,"y":99}', 1, '2026-03-24 09:25:57'),
+            (60, N'click', N'https://example.com/page3', N'Page 3', N'#item-80', N'Button 80', N'button', N'{"x":90,"y":100}', 1, '2026-03-25 09:26:00'),
+            (61, N'navigate', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":91,"y":101}', 1, '2026-03-26 09:27:03'),
+            (62, N'input', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":92,"y":102}', 1, '2026-03-27 09:28:06'),
+            (63, N'scroll', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":93,"y":103}', 1, '2026-03-28 09:29:09'),
+            (64, N'submit', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":94,"y":104}', 1, '2026-03-01 09:30:12'),
+            (65, N'click', N'https://example.com/page1', N'Page 1', N'#item-85', N'Button 85', N'button', N'{"x":95,"y":105}', 1, '2026-03-02 09:31:15'),
+            (66, N'navigate', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":96,"y":106}', 1, '2026-03-03 09:32:18'),
+            (67, N'input', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":97,"y":107}', 1, '2026-03-04 09:33:21'),
+            (68, N'scroll', N'https://example.com/page4', N'Page 4', NULL, NULL, NULL, N'{"x":98,"y":108}', 1, '2026-03-05 09:34:24'),
+            (69, N'submit', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":99,"y":109}', 1, '2026-03-06 09:35:27'),
+            (70, N'click', N'https://example.com/page6', N'Page 6', N'#item-90', N'Button 90', N'button', N'{"x":100,"y":110}', 1, '2026-03-07 09:36:30'),
+            (71, N'navigate', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":101,"y":111}', 1, '2026-03-08 09:37:33'),
+            (72, N'input', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":102,"y":112}', 1, '2026-03-09 09:38:36'),
+            (73, N'scroll', N'https://example.com/page2', N'Page 2', NULL, NULL, NULL, N'{"x":103,"y":113}', 1, '2026-03-10 09:39:39'),
+            (74, N'submit', N'https://example.com/page3', N'Page 3', NULL, NULL, NULL, N'{"x":104,"y":114}', 1, '2026-03-11 09:40:42'),
+            (75, N'click', N'https://example.com/page4', N'Page 4', N'#item-95', N'Button 95', N'button', N'{"x":105,"y":115}', 1, '2026-03-12 09:41:45'),
+            (76, N'navigate', N'https://example.com/page5', N'Page 5', NULL, NULL, NULL, N'{"x":106,"y":116}', 1, '2026-03-13 09:42:48'),
+            (77, N'input', N'https://example.com/page6', N'Page 6', NULL, NULL, NULL, N'{"x":107,"y":117}', 1, '2026-03-14 09:43:51'),
+            (78, N'scroll', N'https://example.com/page0', N'Page 0', NULL, NULL, NULL, N'{"x":108,"y":118}', 1, '2026-03-15 09:44:54'),
+            (79, N'submit', N'https://example.com/page1', N'Page 1', NULL, NULL, NULL, N'{"x":109,"y":119}', 1, '2026-03-16 09:45:57'),
+            (80, N'click', N'https://example.com/page2', N'Page 2', N'#item-100', N'Button 100', N'button', N'{"x":110,"y":120}', 1, '2026-03-17 09:46:00')
+        ]]></sql>
+        <rollback>
+            <sql><![CDATA[DELETE FROM dbo.events WHERE session_id IN (SELECT id FROM dbo.sessions WHERE created_at = '2026-03-01 06:00:00');]]></sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="011-insert-generation_jobs-data-V001" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="scenario_id"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="status"/>
+            </and>
+        </preConditions>
+
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="1"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-02 08:00:00"/>
+            <column name="finished_at" value="2026-03-02 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="2"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-03 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="3"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="4"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-05 08:00:00"/>
+            <column name="finished_at" value="2026-03-05 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="5"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-06 08:00:00"/>
+            <column name="finished_at" value="2026-03-06 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="6"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-07 08:00:00"/>
+            <column name="finished_at" value="2026-03-07 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="7"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="4"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-08 08:00:00"/>
+            <column name="finished_at" value="2026-03-08 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="8"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-09 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="9"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="10"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-11 08:00:00"/>
+            <column name="finished_at" value="2026-03-11 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="11"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-12 08:00:00"/>
+            <column name="finished_at" value="2026-03-12 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="12"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-13 08:00:00"/>
+            <column name="finished_at" value="2026-03-13 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="13"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-14 08:00:00"/>
+            <column name="finished_at" value="2026-03-14 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="14"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-15 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="15"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="16"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-17 08:00:00"/>
+            <column name="finished_at" value="2026-03-17 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="17"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-18 08:00:00"/>
+            <column name="finished_at" value="2026-03-18 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="18"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-19 08:00:00"/>
+            <column name="finished_at" value="2026-03-19 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="19"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="4"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-20 08:00:00"/>
+            <column name="finished_at" value="2026-03-20 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="20"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-21 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="1"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="2"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-23 08:00:00"/>
+            <column name="finished_at" value="2026-03-23 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="3"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-24 08:00:00"/>
+            <column name="finished_at" value="2026-03-24 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="4"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-25 08:00:00"/>
+            <column name="finished_at" value="2026-03-25 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="5"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-01 08:00:00"/>
+            <column name="finished_at" value="2026-03-01 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="6"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-02 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="7"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="8"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-04 08:00:00"/>
+            <column name="finished_at" value="2026-03-04 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="9"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-05 08:00:00"/>
+            <column name="finished_at" value="2026-03-05 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="10"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-06 08:00:00"/>
+            <column name="finished_at" value="2026-03-06 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="11"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="4"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-07 08:00:00"/>
+            <column name="finished_at" value="2026-03-07 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="12"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-08 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="13"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="14"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-10 08:00:00"/>
+            <column name="finished_at" value="2026-03-10 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="15"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-11 08:00:00"/>
+            <column name="finished_at" value="2026-03-11 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="16"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-12 08:00:00"/>
+            <column name="finished_at" value="2026-03-12 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="17"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-13 08:00:00"/>
+            <column name="finished_at" value="2026-03-13 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="18"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-14 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="19"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="20"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-16 08:00:00"/>
+            <column name="finished_at" value="2026-03-16 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="1"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-17 08:00:00"/>
+            <column name="finished_at" value="2026-03-17 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="2"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-18 08:00:00"/>
+            <column name="finished_at" value="2026-03-18 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="3"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="4"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-19 08:00:00"/>
+            <column name="finished_at" value="2026-03-19 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="4"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-20 08:00:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="5"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="0"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="PENDING"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="6"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-22 08:00:00"/>
+            <column name="finished_at" value="2026-03-22 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="7"/>
+            <column name="total_sessions" valueNumeric="4"/>
+            <column name="completed_sessions" valueNumeric="3"/>
+            <column name="failed_sessions" valueNumeric="1"/>
+            <column name="status" value="FAILED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-23 08:00:00"/>
+            <column name="finished_at" value="2026-03-23 09:15:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="8"/>
+            <column name="total_sessions" valueNumeric="1"/>
+            <column name="completed_sessions" valueNumeric="1"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="schedule_cron" value="0 */6 * * *"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-24 08:00:00"/>
+            <column name="finished_at" value="2026-03-24 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="9"/>
+            <column name="total_sessions" valueNumeric="2"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-25 08:00:00"/>
+            <column name="finished_at" value="2026-03-25 09:30:00"/>
+        </insert>
+        <insert tableName="generation_jobs">
+            <column name="scenario_id" valueNumeric="10"/>
+            <column name="total_sessions" valueNumeric="3"/>
+            <column name="completed_sessions" valueNumeric="2"/>
+            <column name="failed_sessions" valueNumeric="0"/>
+            <column name="status" value="RUNNING"/>
+            <column name="config_override" value="{&quot;max_tokens&quot;:1024}"/>
+            <column name="created_at" value="2026-03-01 07:00:00"/>
+            <column name="updated_at" value="2026-03-01 07:05:00"/>
+            <column name="started_at" value="2026-03-01 08:00:00"/>
+        </insert>
+
+        <rollback>
+            <sql>
+                DELETE FROM dbo.generation_jobs
+                WHERE created_at = '2026-03-01 07:00:00' AND updated_at = '2026-03-01 07:05:00';
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
