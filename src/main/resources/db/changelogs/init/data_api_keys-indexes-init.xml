@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="006-create-idx_data_api_keys_is_active" author="nikita">
+        <createIndex tableName="data_api_keys" indexName="idx_data_api_keys_is_active">
+            <column name="is_active"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="data_api_keys" indexName="idx_data_api_keys_is_active"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
