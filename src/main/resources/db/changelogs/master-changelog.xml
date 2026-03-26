@@ -25,7 +25,7 @@
     <!--  CHANGES: Schema modifications after init     -->
     <!--  ALTER TABLE, ADD COLUMN, RENAME, etc.        -->
     <!-- ============================================= -->
-    <!-- <include file="changes/your-change-file.xml" relativeToChangelogFile="true"/> -->
+    <include file="changes/generation_jobs-change-V001.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->
@@ -41,12 +41,13 @@
     <include file="data/sessions-data-V001.xml" relativeToChangelogFile="true"/>
     <include file="data/events-data-V001.xml" relativeToChangelogFile="true"/>
     <include file="data/agent_decisions-data-V001.xml" relativeToChangelogFile="true"/>
+    <include file="data/generation_jobs-data-V002.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->
     <!--  TRIGGERS: Database triggers                  -->
     <!--  AFTER INSERT/UPDATE/DELETE triggers           -->
     <!-- ============================================= -->
-    <!-- <include file="triggers/your-trigger-file.xml" relativeToChangelogFile="true"/> -->
+    <include file="triggers/generation_jobs-denorm-triggers-V001.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
