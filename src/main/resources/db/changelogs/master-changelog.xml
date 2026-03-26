@@ -26,6 +26,7 @@
     <!--  ALTER TABLE, ADD COLUMN, RENAME, etc.        -->
     <!-- ============================================= -->
     <include file="changes/generation_jobs-change-V001.xml" relativeToChangelogFile="true"/>
+    <include file="changes/agent_decisions-change-V001.xml" relativeToChangelogFile="true"/>
 
 
     <!-- ============================================= -->

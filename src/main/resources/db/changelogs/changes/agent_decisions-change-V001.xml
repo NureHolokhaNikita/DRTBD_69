@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="005-drop-agent_decisions-table" author="nikita">
+        <preConditions onFail="HALT">
+            <tableExists schemaName="dbo" tableName="agent_decisions"/>
+        </preConditions>
+
+        <sql>DELETE FROM dbo.tables WHERE name = 'agent_decisions';</sql>
+        <dropTable tableName="agent_decisions"/>
+
+        <rollback>
+            <createTable tableName="agent_decisions">
+                <column name="id" type="BIGINT" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="event_id" type="BIGINT">
+                    <constraints nullable="false" unique="true"/>
+                </column>
+                <column name="step_number" type="INT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="page_url" type="VARCHAR(2000)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="page_state_summary" type="VARCHAR(MAX)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="llm_raw_response" type="VARCHAR(MAX)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="llm_thought" type="VARCHAR(MAX)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="action_taken" type="VARCHAR(MAX)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="llm_model" type="VARCHAR(255)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="response_time_ms" type="INT">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="parse_success" type="BIT" defaultValueNumeric="0">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="retry_count" type="INT" defaultValueNumeric="0">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="decided_at" type="DATETIME" defaultValueComputed="GETDATE()">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <addForeignKeyConstraint
+                    baseTableName="agent_decisions"
+                    baseColumnNames="event_id"
+                    constraintName="fk_agent_decisions_events"
+                    referencedTableName="events"
+                    referencedColumnNames="id"/>
+
+            <sql>
+                INSERT INTO dbo.tables (db_, name, type, author, version, service, description, column_count, created_at, last_update_at)
+                VALUES ('liquibase_lab', 'agent_decisions', 'DATA_TABLE', 'Nikita', 1, 'scenario_session_service',
+                        'LLM reasoning and parsed action for an agent-driven event (1:1 with events).',
+                        (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('agent_decisions')),
+                        SYSUTCDATETIME(), NULL);
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
