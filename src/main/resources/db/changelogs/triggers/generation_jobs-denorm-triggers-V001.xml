@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="017-trigger-sessions-after-insert-denorm-session_count" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="sessions"/>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="generation_job_id"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="session_count"/>
+            </and>
+        </preConditions>
+
+        <sql dbms="mssql">
+            CREATE OR ALTER TRIGGER dbo.trg_sessions_after_insert_denorm_session_count
+            ON dbo.sessions
+            AFTER INSERT
+            AS
+            BEGIN
+                SET NOCOUNT ON;
+                UPDATE gj
+                SET session_count = gj.session_count + x.cnt
+                FROM dbo.generation_jobs gj
+                INNER JOIN (
+                    SELECT generation_job_id, COUNT_BIG(*) AS cnt
+                    FROM inserted
+                    GROUP BY generation_job_id
+                ) x ON gj.id = x.generation_job_id;
+            END
+        </sql>
+
+        <rollback>
+            <sql dbms="mssql">
+                DROP TRIGGER IF EXISTS dbo.trg_sessions_after_insert_denorm_session_count;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="018-trigger-sessions-after-delete-denorm-session_count" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="sessions"/>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="generation_job_id"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="session_count"/>
+            </and>
+        </preConditions>
+
+        <sql dbms="mssql">
+            CREATE OR ALTER TRIGGER dbo.trg_sessions_after_delete_denorm_session_count
+            ON dbo.sessions
+            AFTER DELETE
+            AS
+            BEGIN
+                SET NOCOUNT ON;
+                UPDATE gj
+                SET session_count = gj.session_count - x.cnt
+                FROM dbo.generation_jobs gj
+                INNER JOIN (
+                    SELECT generation_job_id, COUNT_BIG(*) AS cnt
+                    FROM deleted
+                    GROUP BY generation_job_id
+                ) x ON gj.id = x.generation_job_id;
+            END
+        </sql>
+
+        <rollback>
+            <sql dbms="mssql">
+                DROP TRIGGER IF EXISTS dbo.trg_sessions_after_delete_denorm_session_count;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="019-trigger-events-after-insert-denorm-event_count" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="events"/>
+                <tableExists schemaName="dbo" tableName="sessions"/>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <columnExists schemaName="dbo" tableName="events" columnName="session_id"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="generation_job_id"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="event_count"/>
+            </and>
+        </preConditions>
+
+        <sql dbms="mssql">
+            CREATE OR ALTER TRIGGER dbo.trg_events_after_insert_denorm_event_count
+            ON dbo.events
+            AFTER INSERT
+            AS
+            BEGIN
+                SET NOCOUNT ON;
+                UPDATE gj
+                SET event_count = gj.event_count + x.cnt
+                FROM dbo.generation_jobs gj
+                INNER JOIN (
+                    SELECT s.generation_job_id, COUNT_BIG(*) AS cnt
+                    FROM inserted i
+                    INNER JOIN dbo.sessions s ON i.session_id = s.id
+                    GROUP BY s.generation_job_id
+                ) x ON gj.id = x.generation_job_id;
+            END
+        </sql>
+
+        <rollback>
+            <sql dbms="mssql">
+                DROP TRIGGER IF EXISTS dbo.trg_events_after_insert_denorm_event_count;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

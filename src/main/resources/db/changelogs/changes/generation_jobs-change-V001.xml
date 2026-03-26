@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="015-add-generation_jobs-session_count-event_count" author="Mariia">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <not>
+                    <columnExists schemaName="dbo" tableName="generation_jobs" columnName="session_count"/>
+                </not>
+            </and>
+        </preConditions>
+
+        <addColumn tableName="generation_jobs">
+            <column name="session_count" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="generation_jobs">
+            <column name="event_count" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE dbo.tables
+            SET column_count = (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('generation_jobs')),
+                version = version + 1,
+                last_update_at = SYSUTCDATETIME()
+            WHERE name = 'generation_jobs';
+        </sql>
+
+        <rollback>
+            <dropColumn tableName="generation_jobs" columnName="event_count"/>
+            <dropColumn tableName="generation_jobs" columnName="session_count"/>
+            <sql>
+                UPDATE dbo.tables
+                SET column_count = (SELECT COUNT(*) FROM sys.columns WHERE object_id = OBJECT_ID('generation_jobs')),
+                    version = version - 1,
+                    last_update_at = SYSUTCDATETIME()
+                WHERE name = 'generation_jobs';
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

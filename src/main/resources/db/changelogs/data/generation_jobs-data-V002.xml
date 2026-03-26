@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="016-backfill-generation_jobs-denormalized-counters" author="Mariia">
+        <preConditions onFail="HALT">
+            <and>
+                <tableExists schemaName="dbo" tableName="generation_jobs"/>
+                <tableExists schemaName="dbo" tableName="sessions"/>
+                <tableExists schemaName="dbo" tableName="events"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="session_count"/>
+                <columnExists schemaName="dbo" tableName="generation_jobs" columnName="event_count"/>
+                <columnExists schemaName="dbo" tableName="sessions" columnName="generation_job_id"/>
+                <columnExists schemaName="dbo" tableName="events" columnName="session_id"/>
+            </and>
+        </preConditions>
+
+        <sql>
+            UPDATE gj
+            SET session_count = ISNULL(sc.cnt, 0),
+                event_count = ISNULL(ev.cnt, 0)
+            FROM dbo.generation_jobs gj
+            LEFT JOIN (
+                SELECT generation_job_id, COUNT_BIG(*) AS cnt
+                FROM dbo.sessions
+                GROUP BY generation_job_id
+            ) sc ON sc.generation_job_id = gj.id
+            LEFT JOIN (
+                SELECT s.generation_job_id, COUNT_BIG(*) AS cnt
+                FROM dbo.events e
+                INNER JOIN dbo.sessions s ON e.session_id = s.id
+                GROUP BY s.generation_job_id
+            ) ev ON ev.generation_job_id = gj.id;
+        </sql>
+
+        <rollback>
+            <sql>
+                UPDATE dbo.generation_jobs
+                SET session_count = 0,
+                    event_count = 0;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
